@@ -1,0 +1,25 @@
+@import "tailwindcss" source(".");
+@import "./theme.css";
+@import "./registers.css";
+@import "./newborn-form.css";
+@import "./styles/base.css";
+@import "./workspace.css";
+@import "./styles/responsive.css";
+@theme {
+  --font-sans: "Segoe UI", Arial, sans-serif;
+}
+/* Inline mappings keep Tailwind utilities synchronized with the active theme. */
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-soft: var(--surface-soft);
+  --color-heading: var(--heading);
+  --color-content: var(--text);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-brand: var(--blue);
+  --color-brand-ink: var(--blue-ink);
+  --color-brand-soft: var(--blue-soft);
+  --color-accent: var(--pink);
+  --color-accent-ink: var(--pink-ink);
+}

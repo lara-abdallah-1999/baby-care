@@ -1,0 +1,313 @@
+/* Small screens use document scrolling; desktop keeps its bounded workspaces.
+   This file is last in the entry point so feature refinements cannot undo it. */
+.skip-link {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 2000;
+  padding: 12px 16px;
+  background: var(--surface);
+  color: var(--blue-ink);
+  border: 1px solid var(--blue-border);
+  border-radius: 8px;
+  transform: translateY(-150%);
+}
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+@media screen and (max-width: 900px) {
+  .app-shell,
+  .app-shell.collapsed {
+    grid-template-columns: 58px minmax(0, 1fr);
+    height: auto;
+    min-height: 100dvh;
+    overflow: visible;
+  }
+  .app-shell .sidebar {
+    position: sticky;
+    top: 0;
+    height: 100dvh;
+    padding-inline: 7px;
+  }
+  .app-shell .sidebar .collapse-button {
+    display: none;
+  }
+  .app-shell .app-body {
+    min-width: 0;
+    overflow: visible;
+  }
+  .app-shell main,
+  .app-shell main.overview-main,
+  .app-shell main.register-main {
+    overflow: visible;
+    padding: 14px;
+    flex: 1 0 auto;
+  }
+  .app-shell .topbar {
+    flex-wrap: wrap;
+    height: auto;
+    min-height: 60px;
+    padding: 12px;
+  }
+  .app-shell .breadcrumb {
+    min-width: 0;
+    flex: 1;
+  }
+  .app-shell .breadcrumb strong {
+    max-width: none;
+    white-space: normal;
+  }
+  .app-shell .breadcrumb-root {
+    display: none;
+  }
+  .app-shell .breadcrumb > svg:first-of-type {
+    display: none;
+  }
+  .app-shell .topbar > .patient-lookup {
+    order: 3;
+    flex: 1 0 100%;
+    width: 100%;
+    max-width: none;
+  }
+  .app-shell .topbar-right {
+    display: flex;
+  }
+  .app-shell .pending-shortcut {
+    display: flex;
+  }
+  .overview-page,
+  .record-page {
+    height: auto;
+    overflow: visible;
+  }
+  .dashboard-charts {
+    flex: none;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: none;
+  }
+  .dashboard-charts > .dashboard-chart {
+    min-height: 260px;
+  }
+  .dashboard-charts .chart-plot {
+    min-height: 180px;
+  }
+  .dashboard-charts .request-chart-body {
+    min-height: 190px;
+  }
+  .dashboard-charts .request-donut {
+    height: 180px;
+    max-height: 180px;
+  }
+  .admission-workspace .admission-body {
+    display: flex;
+    flex-direction: column;
+    flex: none;
+  }
+  .admission-nav {
+    flex-direction: row;
+    gap: 4px;
+  }
+  .admission-nav button {
+    min-width: 0;
+    min-height: 48px;
+    padding: 10px 8px;
+    gap: 6px;
+    font-size: 11px;
+  }
+  .admission-nav button svg {
+    flex-shrink: 0;
+  }
+  .admission-work-area {
+    overflow: visible;
+    min-width: 0;
+    padding: 14px;
+  }
+  .admission-work-area.showing-count-setup {
+    align-self: stretch;
+  }
+  .mother-summary-reference {
+    flex-wrap: wrap;
+  }
+  .mother-summary-reference > .mother-identity-block {
+    flex-basis: 100%;
+    border-right: 0;
+  }
+  .mother-summary-reference > .mother-info-strip {
+    min-width: 0;
+    flex-basis: 100%;
+  }
+  .children-table-wrap,
+  .register-table-scroll,
+  .lab-results-table-scroll {
+    max-width: 100%;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+  }
+  .children-view-heading,
+  .children-view-actions {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .admission-lab-grid,
+  .admission-lab-grid.with-review {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .admission-workspace .baby-name-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .app-shell footer {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+}
+
+@media screen and (max-width: 540px) {
+  .app-shell main {
+    padding: 10px;
+  }
+  .app-shell .breadcrumb strong {
+    font-size: 11px;
+  }
+  .app-shell .workspace-identity {
+    display: none;
+  }
+  .overview-banner .overview-copy {
+    max-width: 100%;
+  }
+  .overview-banner .overview-stats {
+    position: relative;
+    width: 100%;
+    gap: 12px;
+    flex-wrap: wrap;
+    height: auto;
+    min-height: 0;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+  .overview-banner .overview-stats::after {
+    display: none;
+  }
+  .overview-banner .overview-stat {
+    min-height: 72px;
+    gap: 12px;
+    padding: 12px;
+  }
+  .overview-banner .overview-stat + .overview-stat {
+    border-top: 1px solid var(--border);
+  }
+  .chart-plot g:nth-of-type(even) .chart-x-axis-label {
+    visibility: hidden;
+  }
+  .overview-banner {
+    height: auto;
+    min-height: 230px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 18px;
+  }
+  .overview-stat {
+    min-width: 0;
+  }
+  .overview-stat-line {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .dashboard-charts .request-chart-body {
+    flex-direction: column;
+  }
+  .dashboard-charts .request-donut {
+    width: 150px;
+    height: 150px;
+  }
+  .dashboard-charts .chart-legend {
+    width: 100%;
+  }
+  .admission-nav button {
+    flex-direction: column;
+    justify-content: center;
+    font-size: 10px;
+  }
+  .admission-workspace .baby-name-grid,
+  .admission-workspace .baby-birth-grid,
+  .admission-workspace .newborn-details-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .mother-summary-reference .mother-info-columns {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .mother-summary-reference .mother-info-column {
+    border-left: 0;
+    padding-inline: 0;
+  }
+  .mother-summary-reference .mother-info-item dd {
+    overflow-wrap: anywhere;
+    font-size: 12px;
+  }
+  .baby-count-controls,
+  .panel-footer > div,
+  .dialog-actions {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .baby-count-controls > *,
+  .baby-count-form {
+    width: 100%;
+  }
+  .register-tools {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+  .register-tools .register-search {
+    flex: 1 0 100%;
+    width: 100%;
+  }
+  .register-filters {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .register-page .register-pagination {
+    padding: 12px;
+  }
+  .register-column-options {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .workflow-dialog {
+    padding: 16px;
+    max-height: calc(100dvh - 24px);
+  }
+  .workflow-dialog header h2 {
+    font-size: 16px;
+  }
+  .lab-results-table {
+    min-width: 560px;
+  }
+  .request-choice-row {
+    flex-wrap: wrap;
+  }
+  .admission-search-page.admission-welcome {
+    padding: 12px 0;
+  }
+  .admission-search-page .admission-start.admission-search-hero {
+    padding: 18px 14px;
+  }
+  .app-shell input:not([type="checkbox"]):not([type="radio"]),
+  .app-shell select,
+  .workflow-dialog input:not([type="checkbox"]):not([type="radio"]) {
+    font-size: 16px;
+  }
+}
+
+@media screen and (pointer: coarse) {
+  .app-shell button,
+  .workflow-dialog button,
+  .app-shell .sidebar nav a,
+  .register-open {
+    min-height: 44px;
+  }
+  .app-shell .quiet,
+  .workflow-dialog .quiet,
+  .logout-button,
+  .pending-shortcut {
+    min-width: 44px;
+  }
+}

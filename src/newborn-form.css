@@ -1,0 +1,420 @@
+.baby-name-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  clear: both;
+  margin-bottom: 20px;
+}
+.baby-birth-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1.1fr 1fr 0.7fr;
+  gap: 16px;
+}
+.baby-name-grid label,
+.baby-birth-grid label,
+.field-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text);
+}
+.field-label {
+  display: block;
+}
+.gender-toggle {
+  display: flex;
+  gap: 7px;
+  margin-top: 7px;
+}
+.gender-toggle button {
+  flex: 1;
+  min-height: 39px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--muted);
+  font-size: 11px;
+  padding: 8px;
+  background: var(--surface);
+}
+.gender-toggle button:first-child.selected {
+  background: var(--blue-soft);
+  color: var(--blue-ink);
+  border-color: var(--blue);
+}
+.gender-toggle button:first-child.selected .radio-dot {
+  border-color: var(--blue);
+}
+.gender-toggle button:last-child.selected {
+  background: var(--pink-soft);
+  color: var(--pink-ink);
+  border-color: var(--pink);
+}
+.date-time-input {
+  position: relative;
+  margin-top: 7px;
+}
+.date-time-input input {
+  margin: 0;
+  padding-right: 35px;
+}
+.date-time-input input::-webkit-calendar-picker-indicator {
+  display: none;
+}
+.picker-trigger {
+  position: absolute;
+  inset-block: 1px;
+  right: 1px;
+  width: 34px;
+  color: var(--blue-ink);
+  border-radius: 5px;
+}
+.picker-trigger:hover {
+  background: var(--blue-soft);
+}
+.date-time-dialog {
+  margin: auto;
+  padding: 20px;
+  width: min(340px, calc(100vw - 32px));
+  max-height: calc(100vh - 32px);
+  overflow: auto;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: 0 20px 70px #00000030;
+}
+.date-time-dialog::backdrop {
+  background: #071b3650;
+  backdrop-filter: blur(3px);
+}
+.picker-title,
+.calendar-navigation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.calendar-navigation {
+  margin: 15px 0;
+  font-size: 13px;
+}
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+.calendar-grid button,
+.calendar-weekday {
+  min-height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  border-radius: 7px;
+}
+.calendar-weekday {
+  color: var(--muted);
+  font-size: 10px;
+}
+.calendar-grid button:hover {
+  background: var(--blue-soft);
+}
+.calendar-grid button.selected {
+  background: var(--blue);
+  color: var(--on-blue);
+  font-weight: 700;
+}
+.picker-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 18px;
+  padding-top: 15px;
+  border-top: 1px solid var(--border);
+}
+.time-hint {
+  margin: 12px 0;
+  font-size: 11px;
+}
+.time-columns {
+  display: grid;
+  grid-template-columns: 1fr 16px 1fr;
+  align-items: end;
+  gap: 8px;
+}
+.time-columns > span {
+  align-self: center;
+  text-align: center;
+  margin-top: 20px;
+  font-size: 25px;
+  color: var(--muted);
+}
+.time-columns input {
+  min-height: 64px;
+  text-align: center;
+  font-size: 26px;
+  font-variant-numeric: tabular-nums;
+  background: var(--surface-soft);
+}
+.minute-shortcuts {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+}
+.minute-shortcuts button {
+  flex: 1;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 9px;
+  font-size: 12px;
+}
+.minute-shortcuts button.selected {
+  background: var(--blue-soft);
+  color: var(--blue-ink);
+  border-color: var(--blue);
+}
+@media (max-width: 1180px) {
+  .baby-birth-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 700px) {
+  .baby-name-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+@media (max-width: 420px) {
+  .baby-birth-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.newborn-details-grid {
+  /* The full-width baby legend floats above the fields. Start below it. */
+  clear: both;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px 16px;
+  align-items: start;
+}
+.newborn-details-grid > * {
+  min-width: 0;
+}
+.newborn-details-grid label,
+.newborn-details-grid .field-label {
+  font-size: 11px;
+}
+.newborn-gender-options {
+  display: flex;
+  gap: 8px;
+  margin-top: 7px;
+}
+.newborn-gender-choice {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-height: 39px;
+  padding: 6px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+}
+.newborn-gender-choice input[type="radio"] {
+  width: 14px;
+  height: 14px;
+  min-height: 14px;
+  margin: 0;
+  padding: 0;
+  flex-shrink: 0;
+  appearance: none;
+  border: 1.5px solid var(--muted);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--blue);
+  cursor: pointer;
+}
+.newborn-gender-choice:last-child input[type="radio"] {
+  color: var(--pink);
+}
+.newborn-gender-choice input[type="radio"]:checked {
+  border-color: currentColor;
+  background: radial-gradient(circle, currentColor 0 45%, transparent 50%);
+}
+.newborn-gender-choice input[type="radio"]:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+.newborn-gender-choice svg {
+  flex-shrink: 0;
+}
+.newborn-gender-choice:has(input:checked) {
+  background: var(--blue-soft);
+  border-color: var(--blue);
+  color: var(--blue-ink);
+}
+.newborn-gender-choice:last-child:has(input:checked) {
+  background: var(--pink-soft);
+  border-color: var(--pink);
+  color: var(--pink-ink);
+}
+.blood-type-options {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 5px;
+  margin-top: 7px;
+}
+.blood-type-choice {
+  position: relative;
+  cursor: pointer;
+}
+.blood-type-choice input[type="radio"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  min-height: 0;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.blood-type-choice span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 30px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+}
+.blood-type-choice input:checked + span {
+  background: var(--blue-soft);
+  border-color: var(--blue);
+  color: var(--blue-ink);
+}
+.blood-type-choice input:focus-visible + span {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+.blood-type-choice input:disabled + span {
+  cursor: not-allowed;
+}
+.blood-type-unknown {
+  grid-column: 1 / -1;
+}
+@media (max-width: 900px) {
+  .newborn-details-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 520px) {
+  .newborn-details-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+.blood-type-picker {
+  position: relative;
+}
+.blood-type-trigger {
+  width: 100%;
+  min-height: 39px;
+  margin-top: 7px;
+  padding: 8px 10px;
+  justify-content: space-between;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 12px;
+  text-align: left;
+}
+.blood-type-trigger svg {
+  flex-shrink: 0;
+}
+.blood-type-trigger[aria-expanded="true"] {
+  border-color: var(--blue);
+}
+.blood-type-trigger[aria-expanded="true"] svg {
+  transform: rotate(180deg);
+}
+.blood-type-dialog .blood-type-options {
+  margin-top: 18px;
+  gap: 8px;
+}
+.blood-type-dialog .blood-type-choice span {
+  min-height: 44px;
+  font-size: 13px;
+}
+.children-view-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+.children-view-heading h2 {
+  font-size: 18px;
+}
+.registered-children-message {
+  max-width: 620px;
+  margin: 28px auto;
+  padding: 26px;
+  border: 1px solid var(--blue-border);
+  border-radius: 12px;
+  background: var(--blue-soft);
+}
+.registered-children-message > svg {
+  color: var(--blue-ink);
+  margin-bottom: 12px;
+}
+.registered-children-message h2 {
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+.registered-children-message p {
+  margin-bottom: 18px;
+  font-size: 13px;
+}
+.count-correction-note {
+  padding: 12px 20px;
+  color: var(--text);
+  background: var(--surface-soft);
+  font-size: 12px;
+}
+
+.child-fields legend.baby-form-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.baby-form-heading .baby-inline-notes {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--muted);
+}
+.baby-form-heading .baby-inline-notes input {
+  width: clamp(140px, 22vw, 300px);
+  height: 30px;
+  min-height: 30px;
+  margin: 0;
+  font-size: 11px;
+}
+.newborn-details-grid .register-select-trigger {
+  height: 39px;
+  margin-top: 7px;
+}
+@media (max-width: 520px) {
+  .baby-form-heading .baby-inline-notes {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
+  }
+}

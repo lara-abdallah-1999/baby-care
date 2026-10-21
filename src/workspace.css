@@ -1,0 +1,4 @@
+/* Keep this import order: later feature rules refine the shared workspace. */
+@import "./styles/workspace-foundation.css";
+@import "./styles/admission.css";
+@import "./styles/results-and-selection.css";
