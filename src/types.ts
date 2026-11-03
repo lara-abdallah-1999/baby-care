@@ -52,6 +52,7 @@ export interface LabRequest {
   tests?: string[];
   requestedBy: string;
   requestedAt: string;
+  proceededAt?: string;
   priority: "Routine" | "Urgent";
   status: RequestStatus;
   resultStatus?: "Awaiting sample" | "Processing" | "Results available";

@@ -1,6 +1,7 @@
 import { CalendarDays, ArrowUp, Minus, ArrowUpRight, FlaskConical } from "lucide-react";
 import { Link } from "react-router-dom";
 import { DashboardCharts } from "../components/DashboardCharts";
+import { RequestWaitingCard } from "../components/RequestWaitingCard";
 import { useWorkflowSummary } from "../hooks/useWorkflowSummary";
 
 export function Home() {
@@ -14,12 +15,12 @@ export function Home() {
       <section className="overview-banner" aria-label="Overview">
         <img
           className="overview-artwork overview-artwork-light"
-          src="/branding/welcome-banner-light.png"
+          src={`${import.meta.env.BASE_URL}branding/welcome-banner-light.png`}
           alt="Baby holding an adult's finger, with hearts and the words Healthy Beginnings, Brighter Tomorrows"
         />
         <img
           className="overview-artwork overview-artwork-dark"
-          src="/branding/welcome-banner-dark.png"
+          src={`${import.meta.env.BASE_URL}branding/welcome-banner-dark.png`}
           alt="Baby holding an adult's finger, with hearts and the words Healthy Beginnings, Brighter Tomorrows"
         />
         <div className="overview-copy">
@@ -86,6 +87,7 @@ export function Home() {
         </div>
       </section>
       <DashboardCharts />
+      <RequestWaitingCard />
     </div>
   );
 }

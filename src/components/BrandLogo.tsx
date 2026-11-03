@@ -4,7 +4,7 @@ export function BrandLogo({ theme }: { theme: "light" | "dark" }) {
     <>
       <img
         className="babycare-brand-icon"
-        src="/branding/babycare-sidebar-icon.png"
+        src={`${import.meta.env.BASE_URL}branding/babycare-sidebar-icon.png`}
         alt=""
         width="38"
         height="38"
@@ -15,7 +15,11 @@ export function BrandLogo({ theme }: { theme: "light" | "dark" }) {
         aria-hidden="true"
         focusable="false"
       >
-        <image href={`/branding/babycare-logo-${theme}.png`} width="1961" height="802" />
+        <image
+          href={`${import.meta.env.BASE_URL}branding/babycare-logo-${theme}.png`}
+          width="1961"
+          height="802"
+        />
       </svg>
     </>
   );

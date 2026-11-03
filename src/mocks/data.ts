@@ -201,6 +201,7 @@ for (const [daysAgo, count] of demoDailyCounts.entries()) {
 // Fictional result examples for previewing completed lab requests.
 for (const request of requests) {
   if (!request.id.startsWith("LAB-DEMO-") || request.status !== "Ready") continue;
+  request.proceededAt = request.requestedAt.slice(0, 10) + "T12:00";
   const number = Number(request.id.split("-")[2]);
   if (number % 2 === 0) {
     request.resultStatus = "Processing";

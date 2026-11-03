@@ -11,6 +11,7 @@ export function AppRoutes() {
     <Routes>
       <Route element={<AppShell />}>
         <Route index element={<Home />} />
+        <Route path="index.html" element={<Navigate to="/" replace />} />
         <Route path="admission" element={<Admission />} />
         <Route path="baby-admissions" element={<Navigate to="/admission" replace />} />
         <Route path="newborn-records" element={<Navigate to="/admission" replace />} />
@@ -33,7 +34,7 @@ export function AppRoutes() {
 }
 export function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <AppRoutes />
     </BrowserRouter>
   );

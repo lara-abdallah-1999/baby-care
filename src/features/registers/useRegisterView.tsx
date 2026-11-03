@@ -5,7 +5,11 @@ import { inDateRange, useRegisters } from "../../hooks/useRegisters";
 type Column = { key: string; label: string; render?: (row: Row) => ReactNode };
 export type Row = { id: string; [key: string]: string | number | undefined };
 
-export function useRegisterView(isBabies: boolean, data: ReturnType<typeof useRegisters>) {
+export function useRegisterView(
+  isBabies: boolean,
+  data: ReturnType<typeof useRegisters>,
+  autoSize = 5,
+) {
   const [params, setParams] = useSearchParams();
   const get = (key: string) => params.get(key) ?? "";
   function update(key: string, value: string) {
@@ -30,6 +34,8 @@ export function useRegisterView(isBabies: boolean, data: ReturnType<typeof useRe
         procedures: r.procedures,
         requestedBy: r.requestedBy,
         requestedAt: r.requestedAt,
+        proceededAt: r.proceededAt,
+        resultsAvailable: r.results?.length ? "Available" : "Pending",
         priority: r.priority,
         status: r.displayStatus,
       }));
@@ -37,7 +43,9 @@ export function useRegisterView(isBabies: boolean, data: ReturnType<typeof useRe
     ? get("dateField") === "birth"
       ? "birthDate"
       : "admittedAt"
-    : "requestedAt";
+    : get("dateField") === "proceeded"
+      ? "proceededAt"
+      : "requestedAt";
   const from = get("from"),
     to = get("to"),
     invalidRange = !!from && !!to && from > to;
@@ -59,6 +67,8 @@ export function useRegisterView(isBabies: boolean, data: ReturnType<typeof useRe
       if (get("gender") && row.gender !== get("gender")) return false;
       if (get("bloodType") && (row.bloodType || "Unknown") !== get("bloodType")) return false;
     } else {
+      if (get("results") === "available" && row.resultsAvailable !== "Available") return false;
+      if (get("results") === "unavailable" && row.resultsAvailable !== "Pending") return false;
       if (get("priority") && row.priority !== get("priority")) return false;
       if (get("requestedBy") && row.requestedBy !== get("requestedBy")) return false;
       if (get("babyId") && row.babyId !== get("babyId")) return false;
@@ -108,7 +118,17 @@ export function useRegisterView(isBabies: boolean, data: ReturnType<typeof useRe
         { key: "caseNumber", label: "Case number" },
         { key: "procedures", label: "Procedures" },
         { key: "requestedAt", label: "Requested" },
+        { key: "proceededAt", label: "Proceeded" },
         { key: "requestedBy", label: "Requested by" },
+        {
+          key: "resultsAvailable",
+          label: "Results",
+          render: (r) => (
+            <Badge tone={r.resultsAvailable === "Available" ? "green" : "blue"}>
+              {r.resultsAvailable}
+            </Badge>
+          ),
+        },
         {
           key: "priority",
           label: "Priority",
@@ -118,7 +138,7 @@ export function useRegisterView(isBabies: boolean, data: ReturnType<typeof useRe
         },
         {
           key: "status",
-          label: "Status",
+          label: "Proceed",
           render: (r) => (
             <Badge tone={r.status === "Pending" ? "amber" : "green"}>{r.status}</Badge>
           ),
@@ -126,7 +146,7 @@ export function useRegisterView(isBabies: boolean, data: ReturnType<typeof useRe
       ];
   const defaults = isBabies
     ? ["name", "mrn", "motherName", "gender", "birthDate", "admissionStatus"]
-    : ["id", "name", "procedures", "requestedAt", "priority", "status"];
+    : ["id", "name", "procedures", "requestedAt", "priority", "status", "resultsAvailable"];
   const requestedColumns = params.has("columns") ? get("columns").split(",") : defaults;
   const chosen = columns.filter((column) => requestedColumns.includes(column.key));
   const visibleColumns = chosen.length
@@ -142,6 +162,7 @@ export function useRegisterView(isBabies: boolean, data: ReturnType<typeof useRe
     "requestedBy",
     "babyId",
     "linked",
+    "results",
   ];
   const activeFilters = filterKeys.filter((key) => get(key)).length;
   function resetFilters() {
@@ -171,7 +192,7 @@ export function useRegisterView(isBabies: boolean, data: ReturnType<typeof useRe
         : String(left).localeCompare(String(right), undefined, { numeric: true });
     return (direction === "asc" ? comparison : -comparison) || a.id.localeCompare(b.id);
   });
-  const size = [5, 10, 25, 50].includes(Number(get("size"))) ? Number(get("size")) : 5;
+  const size = [5, 10, 25, 50].includes(Number(get("size"))) ? Number(get("size")) : autoSize;
   const pages = Math.max(1, Math.ceil(sorted.length / size));
   const page = Math.min(pages, Math.max(1, Math.floor(Number(get("page"))) || 1));
   const visible = sorted.slice((page - 1) * size, page * size);

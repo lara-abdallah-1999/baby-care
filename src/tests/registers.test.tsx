@@ -26,6 +26,39 @@ function open(kind: "babies" | "requests", url = "/") {
   );
   return userEvent.setup();
 }
+
+it.each(["available", "unavailable"])(
+  "filters proceeded requests by %s results",
+  (availability) => {
+    const template = repository.requests[0];
+    repository.requests = [
+      {
+        ...template,
+        id: "with-results",
+        status: "Ready",
+        proceededAt: "2026-10-22T12:00",
+        results: [{ test: "CBC", value: "12" }],
+      },
+      {
+        ...template,
+        id: "without-results",
+        status: "Ready",
+        proceededAt: "2026-10-22T12:00",
+        results: [],
+      },
+      { ...template, id: "pending", status: "Pending", results: [] },
+    ];
+    open(
+      "requests",
+      `/?status=Proceeded&dateField=proceeded&from=2026-10-22&to=2026-10-22&results=${availability}`,
+    );
+    const expected = availability === "available" ? "with-results" : "without-results";
+    const excluded = availability === "available" ? "without-results" : "with-results";
+    expect(screen.getByRole("row", { name: `Open request ${expected}` })).toBeInTheDocument();
+    expect(screen.queryByRole("row", { name: `Open request ${excluded}` })).not.toBeInTheDocument();
+    expect(screen.queryByRole("row", { name: "Open request pending" })).not.toBeInTheDocument();
+  },
+);
 it("paginates, sorts and resets pagination when filters change", async () => {
   const user = open("babies");
   expect(screen.getByRole("status")).toHaveTextContent("1-5 of 6 records");

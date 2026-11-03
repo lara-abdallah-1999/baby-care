@@ -235,6 +235,7 @@ export const admissionRequestService = {
     if (!admission) throw new Error("Admission request not found.");
     admission.NewBornSent = true;
     r.status = "Ready";
+    r.proceededAt ??= new Date().toISOString();
     db.notify();
     db.audit.push("Update NewBornSent Field in AdmissionRequest to True");
     return structuredClone(r);

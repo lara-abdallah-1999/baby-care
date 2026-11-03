@@ -20,6 +20,13 @@ npm run build
 
 Serve `dist/` with SPA fallback to `index.html` so direct routes work.
 
+Production builds target the IIS URL `/baby-care/`. Images, scripts, and client
+routes use the same Vite base path. For a different deployment folder, build with
+`npm run build -- --base=/your-folder/` (use `--base=/` for the server root).
+Deploy the contents of `dist/` directly into that server folder, including
+`branding/`, `assets/`, and `web.config`. The included IIS configuration requires
+the URL Rewrite module and supports refreshing client routes.
+
 ## Architecture
 
 - `src/pages`: overview, admission, lab requests, and the Medpoint integration boundary.

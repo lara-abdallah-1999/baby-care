@@ -18,6 +18,7 @@ import {
 import { DateTimeField } from "../components/DateTimeField";
 import { RegisterSelect } from "../components/RegisterSelect";
 import { useRegisters } from "../hooks/useRegisters";
+import { useAutoPageSize } from "../hooks/useAutoPageSize";
 import { useEffect, useRef, useState } from "react";
 
 export function Registers({ kind }: { kind: "babies" | "requests" }) {
@@ -45,6 +46,7 @@ export function Registers({ kind }: { kind: "babies" | "requests" }) {
     requestId: isBabies ? undefined : row.id,
   });
   const data = useRegisters();
+  const { tableRegion, size: autoSize } = useAutoPageSize();
   const [resultId, setResultId] = useState<string | null>(null);
   const resultRequest = data.requests.find((request) => request.id === resultId);
   function openRow(row: Row) {
@@ -71,7 +73,7 @@ export function Registers({ kind }: { kind: "babies" | "requests" }) {
     to,
     invalidRange,
     rows,
-  } = useRegisterView(isBabies, data);
+  } = useRegisterView(isBabies, data, isBabies ? 5 : autoSize);
   function selectFilter(key: string, label: string, options: string[]) {
     return (
       <RegisterSelect
@@ -211,17 +213,32 @@ export function Registers({ kind }: { kind: "babies" | "requests" }) {
             </button>
           </div>
           <div className="register-filters">
-            {isBabies && (
+            {
               <RegisterSelect
                 label="Date to filter"
-                value={get("dateField") === "birth" ? "birth" : "admission"}
+                value={
+                  isBabies
+                    ? get("dateField") === "birth"
+                      ? "birth"
+                      : "admission"
+                    : get("dateField") === "proceeded"
+                      ? "proceeded"
+                      : "requested"
+                }
                 onChange={(value) => update("dateField", value)}
-                options={[
-                  { value: "admission", label: "Admission date" },
-                  { value: "birth", label: "Birth date" },
-                ]}
+                options={
+                  isBabies
+                    ? [
+                        { value: "admission", label: "Admission date" },
+                        { value: "birth", label: "Birth date" },
+                      ]
+                    : [
+                        { value: "requested", label: "Request date" },
+                        { value: "proceeded", label: "Proceeded date" },
+                      ]
+                }
               />
-            )}
+            }
             <DateTimeField
               kind="date"
               label="From date"
@@ -261,6 +278,16 @@ export function Registers({ kind }: { kind: "babies" | "requests" }) {
             ) : (
               <>
                 {selectFilter("priority", "Priority", ["Routine", "Urgent"])}
+                <RegisterSelect
+                  label="Results"
+                  value={get("results")}
+                  onChange={(value) => update("results", value)}
+                  options={[
+                    { value: "", label: "All" },
+                    { value: "available", label: "Available" },
+                    { value: "unavailable", label: "Pending" },
+                  ]}
+                />
                 {selectFilter("requestedBy", "Requested by", unique("requestedBy"))}
               </>
             )}
@@ -272,6 +299,7 @@ export function Registers({ kind }: { kind: "babies" | "requests" }) {
           </p>
         )}
         <div
+          ref={tableRegion}
           className="register-table-scroll"
           role="region"
           aria-label="Scrollable register"
@@ -379,9 +407,12 @@ export function Registers({ kind }: { kind: "babies" | "requests" }) {
           </span>
           <RegisterSelect
             label="Rows per page"
-            value={String(size)}
+            value={get("size") || (isBabies ? "5" : "auto")}
             onChange={(value) => update("size", value)}
-            options={[5, 10, 25, 50].map((n) => ({ value: String(n), label: String(n) }))}
+            options={[
+              ...(!isBabies ? [{ value: "auto", label: `Auto (${autoSize})` }] : []),
+              ...[5, 10, 25, 50].map((n) => ({ value: String(n), label: String(n) })),
+            ]}
           />
           <div>
             <button

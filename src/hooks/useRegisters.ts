@@ -38,6 +38,7 @@ export function useRegisters() {
   }, [revision]);
 }
 export function inDateRange(value: string, from: string, to: string) {
+  if ((from || to) && !value) return false;
   const date = value.slice(0, 10);
   return (!from || date >= from) && (!to || date <= to);
 }
